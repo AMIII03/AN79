@@ -1047,9 +1047,10 @@ const fmt = (n,d)=> n==null ? '—' : n.toLocaleString('en-US',{minimumFractionD
 const fmtChg = p => p==null ? '—' : (p>=0?'+':'')+p.toFixed(2)+'%';
 const isUp   = p => p==null ? true : p>=0;
 
-/* ── fetch one symbol (via local proxy → no CORS) ── */
+/* ── fetch one symbol (via CORS proxy → works on GitHub Pages) ── */
 async function fetchOne(cfg, idx){
-  const url = `/api/price?sym=${cfg.yf}`;
+  const yf  = `https://query1.finance.yahoo.com/v8/finance/chart/${cfg.yf}?interval=1d&range=5d`;
+  const url = `https://corsproxy.io/?${encodeURIComponent(yf)}`;
   try{
     const r = await fetch(url);
     if(!r.ok) return;
